@@ -14,10 +14,10 @@
 ## Examples
 
 ```typescript
-const customError = new CustomError<400|500>({
+const customError = new CustomError<'ERR00'|'ERR01'|'ERR02'>({
     debugMessage: 'a detailed message to support debugging',
     publicMessage: 'a message that can be public',
-    statusCode: 400
+    statusCode: 'ERR01'
 })
 ```
 
