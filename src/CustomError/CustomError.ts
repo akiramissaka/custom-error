@@ -4,7 +4,7 @@ interface IPublicData<T> {
 }
 
 interface ICustomErrorData<T> {
-    readonly originalErrorObj: Error | undefined
+    readonly originalErrorObj?: Error
     readonly debugMessage: string
     readonly publicData: IPublicData<T>
 }
@@ -15,7 +15,7 @@ interface ICustomErrorParams<T> {
     publicMessage: string
     debugMessage: string
     statusCode: T
-    error?: unknown // Error | undefined
+    error?: unknown
 }
 
 export class CustomError<T> extends Error implements ICustomError<T> {
