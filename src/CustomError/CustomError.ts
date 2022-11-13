@@ -1,26 +1,26 @@
-interface IPublicData<T> {
+export interface ICustomErrorPublicData<T> {
     statusCode: T
     message: string
 }
 
-interface ICustomErrorData<T> {
+export interface ICustomErrorData<T> {
     readonly originalErrorObj?: Error
     readonly debugMessage: string
-    readonly publicData: IPublicData<T>
+    readonly publicData: ICustomErrorPublicData<T>
 }
 
 export interface ICustomError<T> extends Error, ICustomErrorData<T> {}
 
-interface ICustomErrorParams<T> {
+export interface ICustomErrorParams<T> {
     publicMessage: string
     debugMessage: string
     statusCode: T
     error?: unknown
 }
 
-export class CustomError<T> extends Error implements ICustomError<T> {
+class CustomError<T> extends Error implements ICustomError<T> {
     public readonly debugMessage: string;
-    public readonly publicData: IPublicData<T>;
+    public readonly publicData: ICustomErrorPublicData<T>;
     public readonly originalErrorObj: Error | undefined;
 
     /**
@@ -32,6 +32,7 @@ export class CustomError<T> extends Error implements ICustomError<T> {
      */
     constructor ({ publicMessage, debugMessage, error, statusCode }: ICustomErrorParams<T>) {
         super(publicMessage);
+
         const handledError = CustomError.handleUnknownErrorType(error);
         this.debugMessage = debugMessage;
         this.publicData = {
@@ -39,7 +40,6 @@ export class CustomError<T> extends Error implements ICustomError<T> {
             statusCode: statusCode,
         };
         this.originalErrorObj = handledError;
-        console.log('this.stack', this.stack);
     }
 
     private static handleUnknownErrorType (error: unknown): Error | undefined {
@@ -53,3 +53,5 @@ export class CustomError<T> extends Error implements ICustomError<T> {
         }
     }
 }
+
+export { CustomError };
